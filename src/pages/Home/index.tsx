@@ -17,7 +17,7 @@ export default function Home() {
     const navigation = useNavigation();
     const [folders, setFolders] = useState([]); // Estado para as pastas principais
 
-    const createFolder = (folderName) => {
+    const handleCreateNewFolder = (folderName) => {
         setFolders([...folders, folderName]); // Adiciona uma nova pasta
     };
 
@@ -38,7 +38,7 @@ export default function Home() {
 
             <TouchableOpacity
                 style={styles.createButton}
-                onPress={() => createFolder("Nova Pasta")}
+                onPress={() => handleCreateNewFolder("Nova Pasta")}
             >
                 <Text>
                     Nova Pasta

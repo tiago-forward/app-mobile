@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -9,8 +9,19 @@ import FolderContainer from "../../components/FolderContainer";
 import { useNavigation } from '@react-navigation/native';
 
 function FolderContent({ route }) {
-    const { folderName } = route.params;
+    const { folderName } = route.params; // Nome da pasta que foi clicada
+    const [subFolders, setSubFolders] = useState([]); // Estado para armazenar as subpastas
+    const [newFolderName, setNewFolderName] = useState(''); // Nome da nova subpasta
     const navigation = useNavigation();
+
+    // Função para criar uma nova subpasta com descrição
+    const handleCreateNewFolder = () => {
+        if (newFolderName.trim()) {
+            // Adiciona nova subpasta com descrição
+            setSubFolders([...subFolders, { name: newFolderName }]);
+            setNewFolderName(''); // Limpa o campo de nome
+        }
+    };
 
     return (
         <View style={{ padding: 10 }}>
@@ -20,10 +31,18 @@ function FolderContent({ route }) {
                 <Text style={{ fontSize: 20, color: 'white' }}>{folderName}</Text>
             </View>
 
+            {/* Input para nome da subpasta*/}
+            <TextInput
+                style={{ padding: 10 }}
+                placeholder="Nome da nova pasta"
+                value={newFolderName}
+                onChangeText={setNewFolderName}
+            />
+
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
                     style={styles.createButton}
-                    onPress={() => {/* lógica de criação */ }}
+                    onPress={handleCreateNewFolder}  // // Lógica para criar nova subpasta com descrição
                 >
                     <Text>
                         Nova Pasta
@@ -41,8 +60,14 @@ function FolderContent({ route }) {
                 </TouchableOpacity>
             </View>
 
-            <FolderContainer title={"Lazer"} onFolderPress={() => navigation.navigate('FolderContent', { folderName: 'Lazer' })}  />
-            <FolderContainer title={"Jogos"} onFolderPress={() => navigation.navigate('FolderContent', { folderName: 'Jogos' })}  />
+            {subFolders.map((subFolder, index) => (
+                <View key={index} style={styles.subFolderContainer}>
+                    <FolderContainer
+                        title={subFolder.name}
+                        onFolderPress={() => navigation.navigate('FolderContent', { folderName: subFolder.name })}
+                    />
+                </View>
+            ))}
         </View>
     );
 }
@@ -80,7 +105,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 2,
-        elevation: 5, 
+        elevation: 5,
     },
 });
 
