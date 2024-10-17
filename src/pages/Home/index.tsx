@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     View,
     Text,
@@ -15,6 +15,11 @@ import FolderContainer from "./components/FolderContainer";
 
 export default function Home() {
     const navigation = useNavigation();
+    const [folders, setFolders] = useState([]); // Estado para as pastas principais
+
+    const createFolder = (folderName) => {
+        setFolders([...folders, folderName]); // Adiciona uma nova pasta
+    };
 
     return (
         <View style={styles.container}>
@@ -33,7 +38,7 @@ export default function Home() {
 
             <TouchableOpacity
                 style={styles.createButton}
-                onPress={() => {/* lógica de criação */ }}
+                onPress={() => createFolder("Nova Pasta")}
             >
                 <Text>
                     Nova Pasta
@@ -42,8 +47,13 @@ export default function Home() {
             </TouchableOpacity>
 
             <View style={styles.fileCategories}>
-                <FolderContainer title={"Casa"} onFolderPress={() => navigation.navigate('FolderContent', { folderName: 'Casa' })} />
-                <FolderContainer title={"Trabalho"} onFolderPress={() => navigation.navigate('FolderContent', { folderName: 'Trabalho' })} />
+                {folders.map((folder, index) => (
+                    <FolderContainer
+                        key={index}
+                        title={folder}
+                        onFolderPress={() => navigation.navigate('FolderContent', { folderName: folder })}
+                    />
+                ))}
             </View>
         </View>
     );
