@@ -1,10 +1,8 @@
 import React from "react";
-import { View } from "react-native";
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import Home from '../pages/Home';
-import Profile from "../pages/Profile";
+import HomeStack from "../pages/Home/router/HomeStack";
+import Profile from '../pages/Profile';
 
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -15,29 +13,27 @@ export default function AuthRoutes() {
     return (
         <Tab.Navigator
             screenOptions={{
-                tabBarActiveTintColor: '#000000',
+                tabBarActiveTintColor: '#000',
                 tabBarInactiveTintColor: '#808080',
                 tabBarLabelStyle: { fontSize: 12 },
-            }}>
+            }}
+        >
             <Tab.Screen
                 name="Home"
-                component={Home}
+                component={HomeStack}  // Stack de navegação da Home
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ color }) => (
                         <AntDesign name="home" size={24} color={color} />
                     ),
-
                 }}
             />
             <Tab.Screen
-                name="Perfil"
+                name="Profile"
                 component={Profile}
                 options={{
                     tabBarIcon: ({ color }) => (
-                        <View>
-                            <Ionicons name="person-circle" size={24} color={color} />
-                        </View>
+                        <Ionicons name="person-circle" size={24} color={color} />
                     )
                 }}
             />

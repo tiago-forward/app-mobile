@@ -7,9 +7,15 @@ import {
     TouchableOpacity
 } from "react-native";
 
+import { useNavigation } from '@react-navigation/native';
+
 import AntDesign from '@expo/vector-icons/AntDesign';
 
+import FolderContainer from "./components/FolderContainer";
+
 export default function Home() {
+    const navigation = useNavigation();
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -25,32 +31,20 @@ export default function Home() {
                 </TouchableOpacity>
             </View>
 
+            <TouchableOpacity
+                style={styles.createButton}
+                onPress={() => {/* lógica de criação */ }}
+            >
+                <Text>
+                    Nova Pasta
+                </Text>
+                <AntDesign name="addfolder" size={24} color="black" />
+            </TouchableOpacity>
+
             <View style={styles.fileCategories}>
-                <TouchableOpacity style={[styles.categoryCard, { backgroundColor: '#9298a4' }]}>
-                    <View>
-                        <AntDesign name="folderopen" size={24} color="black" />
-                    </View>
-                    <Text style={styles.categoryTitle}>Empresa 1</Text>
-                    <Text>10 relatórios</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={[styles.categoryCard, { backgroundColor: '#9298a4' }]}>
-                    <View>
-                        <AntDesign name="folderopen" size={24} color="black" />
-                    </View>
-                    <Text style={styles.categoryTitle}>Empresa 2</Text>
-                    <Text>25 relatórios</Text>
-                </TouchableOpacity>
+                <FolderContainer title={"Casa"} onFolderPress={() => navigation.navigate('FolderContent', { folderName: 'Casa' })} />
+                <FolderContainer title={"Trabalho"} onFolderPress={() => navigation.navigate('FolderContent', { folderName: 'Trabalho' })} />
             </View>
-
-            {/* Barra de Navegação Inferior */}
-            {/* <View style={styles.navigationBar}>
-                <Text>🏠 Home</Text>
-                <Text>📁 My Files</Text>
-                <Text>⬆️ Upload</Text>
-                <Text>🔔 Notifications</Text>
-                <Text>👤 Profile</Text>
-            </View> */}
         </View>
     );
 }
@@ -58,12 +52,12 @@ export default function Home() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
-        backgroundColor: '#c6cad2',
+        padding: 10,
         marginTop: 40,
     },
     header: {
         marginBottom: 20,
+        marginTop: 20,
     },
     greeting: {
         fontSize: 24,
@@ -71,13 +65,12 @@ const styles = StyleSheet.create({
     },
     searchContainer: {
         flexDirection: 'row',
-        marginBottom: 20,
         height: 50,
     },
     searchInput: {
         flex: 1,
         padding: 10,
-        borderColor: '#9298a4',
+        borderColor: '#89898a',
         borderWidth: 1,
         borderRadius: 5,
         marginRight: 10,
@@ -87,8 +80,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 10,
-        backgroundColor: '#9298a4',
+        backgroundColor: '#89898a',
         borderRadius: 5,
+    },
+    createButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#c4c7cd',
+        gap: 10,
+        marginBottom: 14,
+        padding: 6,
+        marginTop: 14,
+        borderRadius: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+        elevation: 5,
     },
     fileCategories: {
         flexDirection: 'row',

@@ -2,9 +2,9 @@ import React from "react";
 import AuthRoutes from "./auth.routes";
 
 export default function Routes() {
-    const isAuthenticated = false;
+    const isAuthenticated = true;
 
     return (
-       isAuthenticated ? <AuthRoutes /> : <AuthRoutes />
+       isAuthenticated ? <AuthRoutes /> : null
     );
 }
